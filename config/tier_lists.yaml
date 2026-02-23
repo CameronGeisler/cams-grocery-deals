@@ -1,0 +1,347 @@
+# ============================================================
+# TIER LISTS - Ranked food items by category
+# ============================================================
+# Based on personal nutrition tier lists (Excel files in data/tier_lists/).
+# Top/A/B tiers only. Items filtered for Vancouver grocery flyer relevance.
+#
+# Tier 1 = Top Tier (highest nutritional value)
+# Tier 2 = A Tier (great options)
+# Tier 3 = B Tier (good options)
+#
+# Each item has:
+#   name:     Display name
+#   keywords: Strings to match against flyer item names (case-insensitive)
+#   avoid:    (optional) Skip if any of these words appear in the flyer item name
+
+# ---- PROTEIN / MEAT ----
+meat:
+  - tier: 1
+    label: "Top Tier"
+    items:
+      - name: "Salmon"
+        keywords: ["salmon fillet", "atlantic salmon", "salmon steak", "sockeye salmon", "coho salmon", "salmon"]
+        avoid: ["smoked", "canned", "lox", "jerky", "burger"]
+      - name: "Chicken Breast"
+        keywords: ["chicken breast", "boneless skinless chicken"]
+        avoid: ["breaded", "frozen dinner", "nugget", "stuffed", "kiev", "strips", "fully cooked", "bites", "tenders", "fingers"]
+      - name: "Turkey Breast"
+        keywords: ["turkey breast", "turkey cutlet"]
+        avoid: ["deli", "lunch meat", "smoked", "processed"]
+      - name: "Eggs"
+        keywords: ["large eggs", "eggs", "free range eggs", "free run eggs", "omega-3 eggs"]
+        avoid: ["egg salad", "egg roll", "liquid eggs", "egg nog", "egg noodle", "cadbury", "chocolate", "lindt", "hershey", "ferrero", "kitkat", "bunny", "candy", "eggies", "mini eggs"]
+      - name: "Sardines"
+        keywords: ["sardines", "sardine"]
+      - name: "Beef Liver"
+        keywords: ["beef liver", "calf liver"]
+        avoid: ["pate", "spread"]
+      - name: "Greek Yogurt"
+        keywords: ["greek yogurt", "plain greek", "0% greek", "skyr"]
+        avoid: ["drinkable", "tube", "kids", "flavored"]
+
+  - tier: 2
+    label: "A Tier"
+    items:
+      - name: "Ground Beef"
+        keywords: ["ground beef", "lean ground beef", "extra lean ground beef", "medium ground beef"]
+        avoid: ["coffee", "seasoned", "burger"]
+      - name: "Steak"
+        keywords: ["beef tenderloin", "filet mignon", "striploin", "strip loin", "ny strip", "new york strip", "ribeye", "rib eye", "rib steak", "sirloin steak", "top sirloin", "t-bone", "t bone"]
+        avoid: ["frozen", "marinated", "seasoned"]
+      - name: "Chicken Thighs"
+        keywords: ["chicken thigh", "chicken thighs"]
+        avoid: ["breaded", "frozen dinner", "nugget", "stuffed"]
+      - name: "Shrimp"
+        keywords: ["shrimp", "prawns", "tiger shrimp", "white shrimp"]
+        avoid: ["paste", "chips", "crackers", "ring", "dumpling", "har gow", "wonton"]
+      - name: "Ground Turkey"
+        keywords: ["ground turkey", "lean ground turkey", "extra lean ground turkey"]
+      - name: "Canned Tuna"
+        keywords: ["canned tuna", "chunk light tuna", "albacore tuna", "tuna"]
+        avoid: ["salad", "sandwich", "helper", "casserole", "gift box"]
+      - name: "Cottage Cheese"
+        keywords: ["cottage cheese"]
+      - name: "Lentils"
+        keywords: ["lentils", "red lentils", "green lentils", "brown lentils"]
+        avoid: ["soup", "canned"]
+
+  - tier: 3
+    label: "B Tier"
+    items:
+      - name: "Pork Tenderloin"
+        keywords: ["pork tenderloin"]
+      - name: "Lamb"
+        keywords: ["lamb chop", "lamb leg", "lamb shoulder", "lamb rack", "ground lamb", "lamb"]
+        avoid: ["sauce"]
+      - name: "Tofu"
+        keywords: ["tofu", "firm tofu", "extra firm tofu", "silken tofu"]
+      - name: "Chickpeas"
+        keywords: ["chickpeas", "garbanzo"]
+        avoid: ["hummus", "snack"]
+      - name: "Whey Protein"
+        keywords: ["whey protein", "protein powder"]
+        avoid: ["bar", "shake"]
+      - name: "Cod"
+        keywords: ["cod fillet", "pacific cod", "atlantic cod", "fresh cod", "cod loin"]
+        avoid: ["liver oil", "fish sticks", "nicoderm", "nicotine"]
+      - name: "Duck"
+        keywords: ["duck breast", "duck leg", "whole duck", "duck"]
+        avoid: ["sauce", "confit"]
+
+# ---- GRAINS & CARBS ----
+carbs:
+  - tier: 1
+    label: "Top Tier"
+    items:
+      - name: "Sweet Potatoes"
+        keywords: ["sweet potato", "sweet potatoes", "yam", "yams"]
+        avoid: ["fries", "chips", "frozen", "casserole"]
+      - name: "Quinoa"
+        keywords: ["quinoa"]
+      - name: "Oats"
+        keywords: ["oats", "oatmeal", "rolled oats", "steel cut oats", "quick oats"]
+        avoid: ["cereal", "granola", "bunches", "cookie", "bar"]
+      - name: "Lentils"
+        keywords: ["lentils", "red lentils", "green lentils", "brown lentils"]
+        avoid: ["soup", "canned"]
+      - name: "Black Beans"
+        keywords: ["black beans"]
+        avoid: ["sauce", "burger"]
+      - name: "Chickpeas"
+        keywords: ["chickpeas", "garbanzo"]
+        avoid: ["hummus", "snack"]
+
+  - tier: 2
+    label: "A Tier"
+    items:
+      - name: "Brown Rice"
+        keywords: ["brown rice"]
+      - name: "Whole Wheat Bread"
+        keywords: ["whole wheat bread", "100% whole wheat", "whole grain bread"]
+        avoid: ["flour", "crumbs"]
+      - name: "Kidney Beans"
+        keywords: ["kidney beans", "red kidney beans"]
+      - name: "Barley"
+        keywords: ["barley", "pot barley", "pearl barley"]
+        avoid: ["soup mix"]
+      - name: "Buckwheat"
+        keywords: ["buckwheat", "kasha"]
+      - name: "Farro"
+        keywords: ["farro"]
+      - name: "Bulgur"
+        keywords: ["bulgur", "bulghur"]
+
+  - tier: 3
+    label: "B Tier"
+    items:
+      - name: "Potatoes"
+        keywords: ["potatoes", "russet potato", "yellow potato", "red potato", "baby potato", "nugget potato"]
+        avoid: ["chips", "fries", "frozen", "sweet potato", "hash", "mashed", "betty crocker", "reser"]
+      - name: "Corn"
+        keywords: ["corn on the cob", "sweet corn", "corn cobs"]
+        avoid: ["chips", "flakes", "starch", "syrup", "oil", "popcorn", "tortilla"]
+      - name: "Whole Wheat Pasta"
+        keywords: ["whole wheat pasta", "whole grain pasta", "whole wheat spaghetti"]
+        avoid: ["sauce"]
+      - name: "Wild Rice"
+        keywords: ["wild rice"]
+      - name: "Rye Bread"
+        keywords: ["rye bread", "pumpernickel"]
+
+# ---- VEGETABLES ----
+vegetables:
+  - tier: 1
+    label: "Top Tier"
+    items:
+      - name: "Broccoli"
+        keywords: ["broccoli", "broccoli crowns"]
+        avoid: ["slaw"]
+      - name: "Avocado"
+        keywords: ["avocado", "avocados"]
+        avoid: ["oil", "dip", "guacamole"]
+      - name: "Carrots"
+        keywords: ["carrots", "carrot", "baby carrots"]
+        avoid: ["cake", "juice"]
+      - name: "Garlic"
+        keywords: ["garlic"]
+        avoid: ["bread", "powder", "salt", "butter", "spread", "sauce", "paste", "toast", "crouton", "furlani"]
+      - name: "Ginger"
+        keywords: ["ginger root", "fresh ginger"]
+        avoid: ["ale", "beer", "cookie", "snap", "candy"]
+      - name: "Spinach"
+        keywords: ["spinach", "baby spinach"]
+        avoid: ["dip", "frozen"]
+      - name: "Kale"
+        keywords: ["kale", "lacinato kale", "curly kale"]
+        avoid: ["chips", "salad kit"]
+      - name: "Sweet Potatoes"
+        keywords: ["sweet potato", "sweet potatoes", "yam"]
+        avoid: ["fries", "chips", "frozen", "casserole"]
+      - name: "Swiss Chard"
+        keywords: ["swiss chard", "chard", "rainbow chard"]
+      - name: "Collard Greens"
+        keywords: ["collard greens", "collard"]
+      - name: "Chili Peppers"
+        keywords: ["chili pepper", "hot pepper", "serrano", "habanero", "thai chili"]
+        avoid: ["sauce", "powder", "flakes", "paste"]
+
+  - tier: 2
+    label: "A Tier"
+    items:
+      - name: "Tomatoes"
+        keywords: ["tomatoes", "tomato", "grape tomato", "cherry tomato", "roma tomato", "vine tomato", "heirloom tomato"]
+        avoid: ["canned", "sauce", "paste", "juice", "ketchup", "soup", "hunt's", "unico", "796", "398", "diced"]
+      - name: "Asparagus"
+        keywords: ["asparagus"]
+      - name: "Beets"
+        keywords: ["beets", "beet", "golden beet"]
+        avoid: ["canned", "pickled", "juice"]
+      - name: "Red Onion"
+        keywords: ["red onion", "red onions"]
+      - name: "Yellow Onions"
+        keywords: ["yellow onion", "yellow onions", "cooking onion", "cooking onions"]
+        avoid: ["powder", "rings", "soup mix", "dip", "green onion"]
+      - name: "Brussels Sprouts"
+        keywords: ["brussels sprout", "brussels sprouts"]
+        avoid: ["frozen"]
+      - name: "Chinese Broccoli"
+        keywords: ["gai lan", "chinese broccoli", "kai lan"]
+      - name: "Napa Cabbage"
+        keywords: ["napa cabbage", "chinese cabbage"]
+      - name: "Arugula"
+        keywords: ["arugula", "rocket"]
+      - name: "Green Onion"
+        keywords: ["green onion", "green onions", "scallion", "scallions"]
+      - name: "Bell Peppers"
+        keywords: ["bell pepper", "bell peppers", "sweet pepper", "red pepper", "green pepper", "orange pepper", "yellow pepper"]
+        avoid: ["stuffed", "roasted", "jarred"]
+      - name: "Red Cabbage"
+        keywords: ["red cabbage"]
+        avoid: ["green"]
+      - name: "Romaine Lettuce"
+        keywords: ["romaine", "romaine lettuce", "romaine hearts"]
+      - name: "Butternut Squash"
+        keywords: ["butternut squash"]
+        avoid: ["butter"]
+      - name: "Cilantro"
+        keywords: ["cilantro", "fresh cilantro", "coriander"]
+        avoid: ["powder", "ground", "seed"]
+      - name: "Parsley"
+        keywords: ["parsley", "fresh parsley", "flat leaf parsley", "italian parsley"]
+        avoid: ["dried", "flakes"]
+      - name: "Jalapenos"
+        keywords: ["jalapeno", "jalapeño"]
+        avoid: ["stuffed", "pickled", "canned"]
+      - name: "Pea Shoots"
+        keywords: ["pea shoots", "pea sprouts"]
+
+  - tier: 3
+    label: "B Tier"
+    items:
+      - name: "Snow Peas"
+        keywords: ["snow peas", "snap peas", "sugar snap peas"]
+        avoid: ["frozen"]
+      - name: "Bok Choy"
+        keywords: ["bok choy", "baby bok choy", "shanghai bok choy"]
+      - name: "Cauliflower"
+        keywords: ["cauliflower"]
+        avoid: ["frozen", "rice", "pizza"]
+      - name: "Green Cabbage"
+        keywords: ["green cabbage", "cabbage"]
+        avoid: ["coleslaw", "sauerkraut", "red cabbage", "napa"]
+      - name: "Peas"
+        keywords: ["green peas", "peas"]
+        avoid: ["frozen", "canned", "split pea", "snap", "snow", "chickpeas", "chick peas", "beans"]
+      - name: "Bean Sprouts"
+        keywords: ["bean sprouts", "mung bean sprouts"]
+      - name: "Radishes"
+        keywords: ["radishes", "radish", "daikon"]
+      - name: "Parsnips"
+        keywords: ["parsnips", "parsnip"]
+      - name: "Artichoke"
+        keywords: ["artichoke", "artichokes"]
+        avoid: ["dip", "jarred", "hearts", "canned"]
+      - name: "Shallots"
+        keywords: ["shallots", "shallot"]
+
+# ---- FRUIT ----
+fruit:
+  - tier: 1
+    label: "Top Tier"
+    items:
+      - name: "Blueberries"
+        keywords: ["blueberries", "blueberry"]
+        avoid: ["muffin", "jam", "pie", "frozen"]
+      - name: "Blackberries"
+        keywords: ["blackberries", "blackberry"]
+        avoid: ["jam", "pie", "frozen"]
+      - name: "Kiwi"
+        keywords: ["kiwi", "kiwifruit", "kiwi fruit"]
+      - name: "Pineapple"
+        keywords: ["pineapple", "fresh pineapple"]
+        avoid: ["canned", "juice", "dried", "rings"]
+      - name: "Pomegranate"
+        keywords: ["pomegranate", "pomegranate seeds", "pomegranate arils"]
+        avoid: ["juice"]
+      - name: "Grapefruit"
+        keywords: ["grapefruit", "red grapefruit", "pink grapefruit"]
+        avoid: ["juice"]
+      - name: "Guava"
+        keywords: ["guava"]
+        avoid: ["juice", "paste", "nectar"]
+
+  - tier: 2
+    label: "A Tier"
+    items:
+      - name: "Strawberries"
+        keywords: ["strawberries", "strawberry"]
+        avoid: ["jam", "pie", "frozen", "syrup", "toothpaste", "pedialyte", "sparkling water", "flavored", "shampoo", "soap", "lotion"]
+      - name: "Raspberries"
+        keywords: ["raspberries", "raspberry"]
+        avoid: ["jam", "pie", "frozen", "syrup"]
+      - name: "Cantaloupe"
+        keywords: ["cantaloupe"]
+      - name: "Lemons"
+        keywords: ["lemons", "lemon"]
+        avoid: ["juice", "curd", "lemonade", "extract"]
+      - name: "Limes"
+        keywords: ["limes", "lime"]
+        avoid: ["juice", "cordial"]
+      - name: "Papaya"
+        keywords: ["papaya"]
+        avoid: ["dried", "juice"]
+      - name: "Cranberries"
+        keywords: ["cranberries", "fresh cranberries"]
+        avoid: ["juice", "dried", "sauce", "cocktail"]
+
+  - tier: 3
+    label: "B Tier"
+    items:
+      - name: "Bananas"
+        keywords: ["bananas", "banana"]
+        avoid: ["chips", "dried", "frozen", "steamed"]
+      - name: "Oranges"
+        keywords: ["oranges", "navel orange", "blood orange"]
+        avoid: ["juice", "marmalade"]
+      - name: "Grapes"
+        keywords: ["grapes", "red grapes", "green grapes", "seedless grapes", "black grapes"]
+        avoid: ["juice", "jelly", "wine", "grapeseed", "vinegar", "oil"]
+      - name: "Watermelon"
+        keywords: ["watermelon"]
+        avoid: ["juice"]
+      - name: "Cherries"
+        keywords: ["cherries", "cherry", "bing cherry", "rainier cherry"]
+        avoid: ["pie", "canned", "maraschino", "dried", "juice"]
+      - name: "Mangoes"
+        keywords: ["mango", "mangoes", "ataulfo mango", "honey mango"]
+        avoid: ["dried", "juice", "chutney", "frozen", "pulp", "ice cream", "mochi", "sticky rice"]
+      - name: "Plums"
+        keywords: ["plums", "plum", "black plum"]
+        avoid: ["sauce", "dried", "plumr", "drain", "cleaner"]
+      - name: "Coconut"
+        keywords: ["coconut", "fresh coconut", "young coconut"]
+        avoid: ["milk", "cream", "oil", "water", "flakes", "shredded", "butter", "jelly", "jellies", "candy"]
+      - name: "Clementines"
+        keywords: ["clementines", "clementine", "cuties", "halos"]
+      - name: "Tangerines"
+        keywords: ["tangerines", "tangerine", "mandarin", "mandarins"]

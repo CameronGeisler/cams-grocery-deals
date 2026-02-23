@@ -1,0 +1,199 @@
+# ============================================================
+# PRICE THRESHOLDS - What Makes a Deal GOOD?
+# ============================================================
+# These are reference "regular" prices and target deal prices.
+# The system uses these to score deals. Adjust based on your area.
+# Over time, the historical price tracker will supplement these.
+
+# ---- MEATS (price per lb unless noted) ----
+meats:
+  top_sirloin:
+    keywords: ["top sirloin"]
+    regular_price: 14.99
+    good_price: 8.99
+    great_price: 6.99
+
+  sirloin_tip:
+    keywords: ["sirloin tip"]
+    regular_price: 11.99
+    good_price: 6.99
+    great_price: 4.99
+
+  striploin:
+    keywords: ["striploin", "strip loin", "ny strip", "new york strip"]
+    regular_price: 17.99
+    good_price: 10.99
+    great_price: 8.99
+
+  ribeye:
+    keywords: ["ribeye", "rib eye", "rib steak"]
+    regular_price: 19.99
+    good_price: 12.99
+    great_price: 9.99
+
+  tenderloin_beef:
+    keywords: ["beef tenderloin", "filet mignon"]
+    regular_price: 29.99
+    good_price: 19.99
+    great_price: 14.99
+
+  t_bone:
+    keywords: ["t-bone", "t bone"]
+    regular_price: 16.99
+    good_price: 10.99
+    great_price: 8.99
+
+  chicken_breast:
+    keywords: ["chicken breast"]
+    regular_price: 7.49
+    good_price: 4.99
+    great_price: 3.49
+
+  chicken_thigh:
+    keywords: ["chicken thigh"]
+    regular_price: 5.99
+    good_price: 3.99
+    great_price: 2.49
+
+  pork_tenderloin:
+    keywords: ["pork tenderloin"]
+    regular_price: 8.99
+    good_price: 5.49
+    great_price: 3.99
+
+  pork_chops:
+    keywords: ["pork chop", "pork loin chop"]
+    regular_price: 6.99
+    good_price: 4.49
+    great_price: 2.99
+
+  ground_beef:
+    keywords: ["lean ground beef", "extra lean ground", "ground beef"]
+    regular_price: 7.49
+    good_price: 4.99
+    great_price: 3.99
+
+  ground_turkey:
+    keywords: ["ground turkey"]
+    regular_price: 6.99
+    good_price: 4.49
+    great_price: 3.49
+
+  salmon:
+    keywords: ["salmon fillet", "salmon"]
+    regular_price: 12.99
+    good_price: 7.99
+    great_price: 5.99
+
+  shrimp:
+    keywords: ["shrimp"]
+    regular_price: 10.99
+    good_price: 6.99
+    great_price: 4.99
+
+
+# ---- PRODUCE (price per unit/package) ----
+produce:
+  strawberries:
+    keywords: ["strawberries", "strawberry"]
+    regular_price: 4.99
+    good_price: 2.99
+    great_price: 1.99
+
+  blueberries:
+    keywords: ["blueberries", "blueberry"]
+    regular_price: 4.99
+    good_price: 2.99
+    great_price: 1.99
+
+  raspberries:
+    keywords: ["raspberries", "raspberry"]
+    regular_price: 4.99
+    good_price: 2.99
+    great_price: 1.99
+
+  grapes:
+    keywords: ["grapes", "red grapes", "green grapes"]
+    regular_price: 4.99
+    good_price: 2.99
+    great_price: 1.99
+
+  mangoes:
+    keywords: ["mango", "mangoes", "ataulfo"]
+    regular_price: 2.49
+    good_price: 1.49
+    great_price: 0.99
+
+  watermelon:
+    keywords: ["watermelon"]
+    regular_price: 7.99
+    good_price: 4.99
+    great_price: 3.99
+
+  avocados:
+    keywords: ["avocado"]
+    regular_price: 2.49
+    good_price: 1.49
+    great_price: 0.99
+
+  bell_peppers:
+    keywords: ["bell pepper", "sweet pepper"]
+    regular_price: 3.99
+    good_price: 2.49
+    great_price: 1.49
+
+  broccoli:
+    keywords: ["broccoli"]
+    regular_price: 3.49
+    good_price: 1.99
+    great_price: 0.99
+
+  asparagus:
+    keywords: ["asparagus"]
+    regular_price: 4.99
+    good_price: 2.99
+    great_price: 1.99
+
+  mushrooms:
+    keywords: ["mushrooms", "mushroom"]
+    regular_price: 3.49
+    good_price: 1.99
+    great_price: 1.49
+
+  sweet_potatoes:
+    keywords: ["sweet potato", "sweet potatoes", "yam"]
+    regular_price: 2.49
+    good_price: 1.49
+    great_price: 0.99
+
+  spinach:
+    keywords: ["spinach", "baby spinach"]
+    regular_price: 4.49
+    good_price: 2.99
+    great_price: 1.99
+
+  tomatoes:
+    keywords: ["tomato", "grape tomato", "cherry tomato"]
+    regular_price: 3.99
+    good_price: 2.49
+    great_price: 1.49
+
+  cucumbers:
+    keywords: ["cucumber", "english cucumber"]
+    regular_price: 1.99
+    good_price: 1.29
+    great_price: 0.79
+
+  corn:
+    keywords: ["corn", "corn on the cob"]
+    regular_price: 1.49
+    good_price: 0.79
+    great_price: 0.49
+
+
+# ---- GENERIC FALLBACK ----
+# Used when an item doesn't have a specific threshold entry above.
+generic:
+  minimum_discount_percent: 20    # Below 20% off, don't bother flagging
+  good_deal_percent: 30           # 30%+ off = good deal
+  great_deal_percent: 45          # 45%+ off = great/exceptional deal

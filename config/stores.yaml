@@ -1,0 +1,68 @@
+# ============================================================
+# STORE CONFIGURATION
+# ============================================================
+# Each store's details: how to find it on Flipp, price-match policy, etc.
+
+stores:
+  superstore:
+    display_name: "Real Canadian Superstore"
+    flipp_merchant_names:
+      - "Real Canadian Superstore"
+      - "Superstore"
+    ourgroceries_list: "Superstore"
+    supports_price_match: true
+    price_match_limit: 4
+    loyalty_program: "PC Optimum"
+    loyalty_earn_rate: 0.015      # 1.5% base earn
+    is_primary: true
+    notes: "Primary store. Price match competitors here."
+
+  shoppers:
+    display_name: "Shoppers Drug Mart"
+    flipp_merchant_names:
+      - "Shoppers Drug Mart"
+    ourgroceries_list: "Shoppers Drug Mart"
+    supports_price_match: false
+    loyalty_program: "PC Optimum"
+    loyalty_earn_rate: 0.015
+    notes: "Watch for 20x points events (30% return!). Seniors day Thursdays 20% off."
+
+  no_frills:
+    display_name: "No Frills"
+    flipp_merchant_names:
+      - "No Frills"
+    ourgroceries_list: null       # No dedicated list - price match at Superstore
+    supports_price_match: true
+    price_match_limit: 4
+    loyalty_program: "PC Optimum"
+    loyalty_earn_rate: 0.015
+
+  freshco:
+    display_name: "FreshCo"
+    flipp_merchant_names:
+      - "FreshCo"
+    ourgroceries_list: null
+    supports_price_match: true
+    price_match_limit: 4
+    loyalty_program: null
+    notes: "Beats competitor price by $0.01"
+
+  walmart:
+    display_name: "Walmart"
+    flipp_merchant_names:
+      - "Walmart"
+      - "Walmart Canada"
+      - "Walmart Supercentre"
+    ourgroceries_list: null
+    supports_price_match: false
+    loyalty_program: null
+
+  costco:
+    display_name: "Costco"
+    flipp_merchant_names:
+      - "Costco"
+      - "Costco Wholesale"
+    ourgroceries_list: null
+    supports_price_match: false
+    loyalty_program: null
+    notes: "May not appear on Flipp. Check Costco app separately for deals."

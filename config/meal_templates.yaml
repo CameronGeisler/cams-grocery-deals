@@ -1,0 +1,148 @@
+# ============================================================
+# MEAL TEMPLATES - Easy, Healthy Dinners
+# ============================================================
+# Each meal requires a protein and some vegetables/fruits on sale.
+# The system matches these against current flyer deals.
+# Add, remove, or modify meals to match your family's taste!
+
+meals:
+  - name: "Grilled Sirloin with Roasted Vegetables"
+    proteins: ["top sirloin", "sirloin tip", "striploin"]
+    vegetables: ["bell pepper", "zucchini", "mushrooms", "asparagus", "onion"]
+    min_veggies: 2
+    cooking: "grill/BBQ"
+    difficulty: "easy"
+
+  - name: "Stir-Fry Beef with Vegetables"
+    proteins: ["sirloin tip", "top sirloin"]
+    vegetables: ["bell pepper", "broccoli", "mushrooms", "snap peas", "carrot", "onion"]
+    min_veggies: 2
+    cooking: "stir-fry"
+    difficulty: "easy"
+
+  - name: "Baked Chicken Breast with Sweet Potatoes & Broccoli"
+    proteins: ["chicken breast"]
+    vegetables: ["sweet potato", "broccoli", "green beans"]
+    min_veggies: 2
+    cooking: "oven"
+    difficulty: "easy"
+
+  - name: "Chicken Thigh Sheet Pan Dinner"
+    proteins: ["chicken thigh"]
+    vegetables: ["bell pepper", "zucchini", "onion", "sweet potato", "mushrooms"]
+    min_veggies: 2
+    cooking: "oven"
+    difficulty: "easy"
+
+  - name: "Pork Tenderloin with Roasted Vegetables"
+    proteins: ["pork tenderloin"]
+    vegetables: ["sweet potato", "broccoli", "asparagus", "carrot"]
+    min_veggies: 2
+    cooking: "oven"
+    difficulty: "easy"
+
+  - name: "Grilled Pork Chops with Corn & Salad"
+    proteins: ["pork chop", "pork loin"]
+    vegetables: ["corn", "romaine", "lettuce", "tomato", "cucumber"]
+    min_veggies: 2
+    cooking: "grill"
+    difficulty: "easy"
+
+  - name: "Burger Night with Side Salad"
+    proteins: ["lean ground beef", "extra lean ground beef", "ground beef"]
+    vegetables: ["tomato", "romaine", "lettuce", "onion", "mushrooms"]
+    min_veggies: 2
+    cooking: "grill/pan"
+    difficulty: "easy"
+
+  - name: "Beef Tacos with Fresh Veggies"
+    proteins: ["lean ground beef", "extra lean ground beef", "ground beef"]
+    vegetables: ["tomato", "romaine", "lettuce", "onion", "bell pepper", "avocado"]
+    min_veggies: 2
+    cooking: "stovetop"
+    difficulty: "easy"
+
+  - name: "Salmon with Asparagus & Rice"
+    proteins: ["salmon"]
+    vegetables: ["asparagus", "spinach", "green beans"]
+    min_veggies: 1
+    cooking: "oven/pan"
+    difficulty: "easy"
+
+  - name: "Shrimp Stir-Fry"
+    proteins: ["shrimp"]
+    vegetables: ["bell pepper", "broccoli", "snap peas", "carrot", "mushrooms"]
+    min_veggies: 2
+    cooking: "stir-fry"
+    difficulty: "easy"
+
+  - name: "Ribeye Steak with Caesar Salad"
+    proteins: ["ribeye", "rib eye", "rib steak"]
+    vegetables: ["romaine", "lettuce", "tomato", "mushrooms"]
+    min_veggies: 1
+    cooking: "grill/pan"
+    difficulty: "easy"
+
+  - name: "Ground Turkey Lettuce Wraps"
+    proteins: ["ground turkey"]
+    vegetables: ["romaine", "lettuce", "carrot", "cucumber", "green onion"]
+    min_veggies: 2
+    cooking: "stovetop"
+    difficulty: "easy"
+
+  - name: "Chicken & Vegetable Soup"
+    proteins: ["chicken breast", "chicken thigh"]
+    vegetables: ["carrot", "celery", "onion", "spinach", "corn"]
+    min_veggies: 3
+    cooking: "stovetop"
+    difficulty: "easy"
+
+  - name: "T-Bone Steak with Baked Potato & Salad"
+    proteins: ["t-bone"]
+    vegetables: ["romaine", "lettuce", "tomato", "cucumber"]
+    min_veggies: 1
+    cooking: "grill/pan"
+    difficulty: "easy"
+
+  - name: "Chicken Breast Fajitas"
+    proteins: ["chicken breast"]
+    vegetables: ["bell pepper", "onion", "tomato", "avocado", "romaine"]
+    min_veggies: 2
+    cooking: "stovetop"
+    difficulty: "easy"
+
+  - name: "Pork Chop with Apple & Spinach"
+    proteins: ["pork chop"]
+    vegetables: ["spinach", "sweet potato"]
+    fruits: ["apple"]
+    min_veggies: 1
+    cooking: "oven/pan"
+    difficulty: "easy"
+
+  - name: "Grilled Chicken Thigh Greek Salad"
+    proteins: ["chicken thigh"]
+    vegetables: ["cucumber", "tomato", "onion", "bell pepper", "romaine"]
+    min_veggies: 3
+    cooking: "grill"
+    difficulty: "easy"
+
+  - name: "Simple Salmon Bowl"
+    proteins: ["salmon"]
+    vegetables: ["avocado", "cucumber", "carrot", "edamame"]
+    min_veggies: 2
+    cooking: "oven/pan"
+    difficulty: "easy"
+
+  - name: "Beef & Broccoli"
+    proteins: ["sirloin tip", "top sirloin"]
+    vegetables: ["broccoli", "carrot", "onion", "garlic"]
+    min_veggies: 2
+    cooking: "stir-fry"
+    difficulty: "easy"
+
+  - name: "Stuffed Bell Peppers"
+    proteins: ["lean ground beef", "ground turkey"]
+    vegetables: ["bell pepper", "onion", "tomato"]
+    min_veggies: 2
+    cooking: "oven"
+    difficulty: "easy"

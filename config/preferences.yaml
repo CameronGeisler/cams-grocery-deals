@@ -1,0 +1,93 @@
+# ============================================================
+# WEEKLY STAPLES - Items you buy every week
+# ============================================================
+# The system finds the best current price across all stores.
+# 'keywords' are matched against flyer item names (case-insensitive).
+# 'avoid' (optional) filters out unwanted matches.
+# 'category' is a display hint: meat, carbs, vegetables, fruit, dairy, other
+
+staples:
+  - name: "Avocados"
+    keywords: ["avocado", "avocados"]
+    category: "fruit"
+
+  - name: "Bacon"
+    keywords: ["bacon", "side bacon", "back bacon"]
+    avoid: ["bits", "imitation"]
+    category: "meat"
+
+  - name: "Bananas"
+    keywords: ["bananas", "banana"]
+    category: "fruit"
+
+  - name: "Cheese"
+    keywords: ["cheddar", "marble cheese", "mozzarella", "cheese block", "shredded cheese"]
+    avoid: ["cream cheese", "cottage cheese", "processed cheese"]
+    category: "dairy"
+
+  - name: "Chicken Thighs"
+    keywords: ["chicken thighs", "chicken thigh"]
+    avoid: ["breaded", "frozen dinner", "nugget"]
+    category: "meat"
+
+  - name: "Cottage Cheese"
+    keywords: ["cottage cheese"]
+    category: "dairy"
+
+  - name: "Eggs"
+    keywords: ["large eggs", "eggs", "free range eggs", "free run eggs"]
+    avoid: ["egg salad", "egg roll", "liquid eggs", "egg nog", "egg noodle", "cadbury", "chocolate", "lindt", "hershey", "ferrero", "kitkat", "bunny", "candy", "eggies", "mini eggs"]
+    category: "dairy"
+
+  - name: "Frozen Fruit"
+    keywords: ["frozen fruit", "frozen mixed berries", "frozen blueberries", "frozen strawberries"]
+    avoid: ["with sugar"]
+    category: "fruit"
+
+  - name: "Weekday Fruits"
+    keywords: ["apples", "grapes", "pears", "oranges", "clementines", "kiwi"]
+    category: "fruit"
+
+  - name: "Garlic"
+    keywords: ["garlic"]
+    avoid: ["garlic bread", "garlic powder", "garlic salt", "garlic butter", "garlic spread", "garlic sauce", "garlic paste", "garlic toast", "crouton", "furlani"]
+    category: "vegetables"
+
+  - name: "Lemon"
+    keywords: ["lemons", "lemon"]
+    avoid: ["lemon juice", "lemon curd", "lemonade"]
+    category: "fruit"
+
+  - name: "Milk"
+    keywords: ["2% milk", "whole milk", "partly skimmed", "white milk"]
+    avoid: ["chocolate milk", "almond milk", "oat milk"]
+    category: "dairy"
+
+  - name: "Onions"
+    keywords: ["onions", "yellow onion", "cooking onions"]
+    avoid: ["powder", "rings", "green onion"]
+    category: "vegetables"
+
+  - name: "Salmon"
+    keywords: ["salmon fillet", "atlantic salmon", "salmon"]
+    avoid: ["smoked", "canned", "lox"]
+    category: "meat"
+
+  - name: "Steak"
+    keywords: ["top sirloin", "striploin", "ribeye", "sirloin tip", "t-bone", "new york strip"]
+    avoid: ["frozen", "marinated"]
+    category: "meat"
+
+  - name: "Tomatoes"
+    keywords: ["tomatoes", "grape tomatoes", "cherry tomatoes", "roma tomato"]
+    avoid: ["canned", "sauce", "paste", "juice"]
+    category: "vegetables"
+
+  - name: "Vegetables for Meals"
+    keywords: ["broccoli", "cauliflower", "bell peppers", "zucchini", "asparagus", "green beans"]
+    category: "vegetables"
+
+  - name: "Yogurt"
+    keywords: ["greek yogurt", "plain yogurt", "0% greek", "yogurt tub", "skyr"]
+    avoid: ["drinkable", "tube", "kids"]
+    category: "dairy"

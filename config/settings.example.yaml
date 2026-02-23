@@ -1,0 +1,45 @@
+# ============================================================
+# GROCERY PLANNER - Main Settings
+# ============================================================
+# Copy this file to settings.yaml and fill in your details.
+
+# Your postal code (used to find local flyers on Flipp)
+postal_code: "CHANGE_ME"    # e.g., "T2P 1J9" or "K1A0B1"
+locale: "en"
+
+# OurGroceries login (the app you use for shopping lists)
+# Leave as CHANGE_ME to skip syncing and just see the console report
+ourgroceries:
+  username: "CHANGE_ME"
+  password: "CHANGE_ME"
+
+  # Map your OurGroceries list names to stores
+  # These should match the EXACT names of your lists in the app
+  list_mapping:
+    superstore: "Superstore"
+    shoppers: "Shoppers Drug Mart"
+    need_soon: "Need Soon"
+    need_later: "Need Later"
+
+# Which store do you shop at most? (used for price-match optimization)
+primary_store: "superstore"
+
+# How many items can you price-match per transaction?
+price_match_limit: 4
+
+# Output options
+output:
+  console: true           # Always print report to terminal
+  html_report: true       # Also save a nice HTML report
+  report_path: "index.html"
+
+# Auto-deploy to GitHub Pages (share the report with family)
+deploy:
+  github_pages_repo: "../cams-grocery-deals"   # Path to the site repo (relative to project root)
+
+# Ollama LLM matching (optional — falls back to keyword matching if unavailable)
+ollama:
+  matching_mode: "auto"    # "auto" (try LLM, fall back to keyword), "llm", or "keyword"
+  url: "http://localhost:11434"
+  model: "qwen2.5:14b"    # Best accuracy. Alternatives: "qwen2.5:7b" (faster), "llama3.1:8b"
+  batch_size: 100           # Items per LLM call (100-150 recommended)
