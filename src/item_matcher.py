@@ -172,7 +172,7 @@ class ItemMatcher:
                 matched_tier = None
                 matched_entry_name = None
 
-                for tier_num in (1, 2, 3):
+                for tier_num in (1, 2, 3, 4):
                     tier_items = self.tier_index.get((category, tier_num), [])
                     for entry in tier_items:
                         entry_keywords = entry.get("keywords", [])

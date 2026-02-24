@@ -21,7 +21,7 @@ staples:
     category: "fruit"
 
   - name: "Cheese"
-    keywords: ["cheddar", "marble cheese", "mozzarella", "cheese block", "shredded cheese"]
+    keywords: ["cheese", "cheddar", "marble cheese", "mozzarella", "cheese block", "shredded cheese", "babybel"]
     avoid: ["cream cheese", "cottage cheese", "processed cheese"]
     category: "dairy"
 
@@ -59,12 +59,12 @@ staples:
     category: "fruit"
 
   - name: "Milk"
-    keywords: ["2% milk", "whole milk", "partly skimmed", "white milk"]
+    keywords: ["2% milk", "whole milk", "partly skimmed", "white milk", "lactose free milk"]
     avoid: ["chocolate milk", "almond milk", "oat milk"]
     category: "dairy"
 
   - name: "Onions"
-    keywords: ["onions", "yellow onion", "cooking onions"]
+    keywords: ["onions", "yellow onion", "cooking onions", "red onion", "red onions"]
     avoid: ["powder", "rings", "green onion"]
     category: "vegetables"
 
@@ -88,6 +88,6 @@ staples:
     category: "vegetables"
 
   - name: "Yogurt"
-    keywords: ["greek yogurt", "plain yogurt", "0% greek", "yogurt tub", "skyr"]
+    keywords: ["yogurt", "greek yogurt", "plain yogurt", "0% greek", "yogurt tub", "skyr"]
     avoid: ["drinkable", "tube", "kids"]
     category: "dairy"

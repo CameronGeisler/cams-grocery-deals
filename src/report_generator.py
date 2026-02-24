@@ -16,6 +16,15 @@ logger = logging.getLogger(__name__)
 
 
 class ReportGenerator:
+    STORE_COLORS = {
+        "Real Canadian Superstore": "#f57c00",
+        "No Frills": "#ffeb3b",
+        "FreshCo": "#66bb6a",
+        "Walmart": "#42a5f5",
+        "Shoppers Drug Mart": "#ef5350",
+        "Costco": "#ab47bc",
+    }
+
     def __init__(self, tier_lists: dict = None):
         # Extract tier labels from config for display
         self.tier_labels = {}
@@ -67,7 +76,7 @@ class ReportGenerator:
             groups[tier].append(item)
         return groups
 
-    def _deal_card(self, ri: RankedItem) -> str:
+    def _deal_card(self, ri: RankedItem, show_staple_badge: bool = True) -> str:
         """Render a single deal card for a RankedItem."""
         parts = ['<div class="deal-card">']
 
@@ -102,11 +111,12 @@ class ReportGenerator:
             unit_str = " &middot; ".join(unit_parts)
             parts.append(f'<div class="card-unit-price">{unit_str}</div>')
 
-        # Store name
+        # Store name (color-coded)
         store_html = html.escape(ri.store)
-        if ri.is_staple:
+        store_color = self.STORE_COLORS.get(ri.store, "#999")
+        if show_staple_badge and ri.is_staple:
             store_html += ' <span class="staple-badge">staple</span>'
-        parts.append(f'<div class="card-store">{store_html}</div>')
+        parts.append(f'<div class="card-store" style="color:{store_color}">{store_html}</div>')
 
         parts.append('</div>')
         return "\n".join(parts)
@@ -129,7 +139,7 @@ class ReportGenerator:
 
             parts.append('<div class="card-row">')
             for ri in matches:
-                parts.append(self._deal_card(ri))
+                parts.append(self._deal_card(ri, show_staple_badge=False))
             parts.append('</div>')
 
             parts.append('</div>')
@@ -146,16 +156,16 @@ class ReportGenerator:
             parts.append('</details>')
             return "\n".join(parts)
 
-        for tier_num in (1, 2, 3):
+        for tier_num in (1, 2, 3, 4):
             tier_items = tier_groups.get(tier_num, [])
+
+            # Skip empty tiers entirely
+            if not tier_items:
+                continue
 
             # Tier subheading with label from config
             tier_label = self.tier_labels.get((category, tier_num), f"Tier {tier_num}")
             parts.append(f'<div class="tier-header">{html.escape(tier_label)}</div>')
-
-            if not tier_items:
-                parts.append('<div class="item"><div class="not-on-sale">Nothing this week</div></div>')
-                continue
 
             # Group items by matched_tier_item, preserving first-seen order
             grouped = OrderedDict()
@@ -195,7 +205,7 @@ class ReportGenerator:
     -webkit-text-size-adjust: 100%;
   }}
   h1 {{ font-size: 1.3rem; text-align: center; margin: 8px 0 4px; color: #f0f0f0; }}
-  .date {{ text-align: center; color: #888; margin-bottom: 16px; font-size: 0.9rem; }}
+  .date {{ text-align: center; color: #b0b0b0; margin-bottom: 16px; font-size: 0.9rem; }}
 
   /* Collapsible sections */
   details {{
@@ -211,17 +221,17 @@ class ReportGenerator:
     user-select: none;
   }}
   summary::-webkit-details-marker {{ display: none; }}
-  summary::after {{ content: "\\25B8"; font-size: 0.9rem; color: #666; transition: transform 0.15s; }}
+  summary::after {{ content: "\\25B8"; font-size: 0.9rem; color: #999; transition: transform 0.15s; }}
   details[open] summary::after {{ transform: rotate(90deg); }}
 
   /* Legacy items (not-on-sale, warnings) */
   .item {{ padding: 10px 16px; border-top: 1px solid #2a2a2a; }}
   .item-name {{ font-weight: 600; font-size: 0.95rem; }}
-  .not-on-sale {{ color: #666; font-style: italic; }}
+  .not-on-sale {{ color: #999; font-style: italic; }}
 
   /* Tier subheadings */
   .tier-header {{
-    padding: 8px 16px; font-size: 0.78rem; color: #999;
+    padding: 8px 16px; font-size: 0.85rem; color: #c0c0c0;
     text-transform: uppercase; letter-spacing: 0.03em;
     border-top: 1px solid #2a2a2a; background: #181818;
     font-weight: 600;
@@ -231,7 +241,7 @@ class ReportGenerator:
   .staple-badge {{
     background: #1b3a1b; color: #66bb6a;
     padding: 1px 6px; border-radius: 4px;
-    font-size: 0.7rem; font-weight: 500;
+    font-size: 0.75rem; font-weight: 500;
     vertical-align: middle;
   }}
 
@@ -287,7 +297,7 @@ class ReportGenerator:
   }}
   .card-product {{
     font-size: 0.82rem;
-    color: #bbb;
+    color: #d0d0d0;
     line-height: 1.3;
     margin-bottom: 6px;
     display: -webkit-box;
@@ -301,20 +311,20 @@ class ReportGenerator:
     color: #66bb6a;
   }}
   .card-unit-price {{
-    font-size: 0.78rem;
-    color: #888;
+    font-size: 0.85rem;
+    color: #b0b0b0;
     margin-top: 1px;
   }}
   .card-store {{
-    font-size: 0.78rem;
-    color: #999;
+    font-size: 0.85rem;
+    color: #b0b0b0;
     margin-top: 4px;
   }}
   .card-weight {{
     display: inline-block;
     background: #1a2a3a;
-    color: #64b5f6;
-    font-size: 0.7rem;
+    color: #90caf9;
+    font-size: 0.75rem;
     padding: 1px 5px;
     border-radius: 3px;
     margin-left: 4px;
@@ -323,8 +333,8 @@ class ReportGenerator:
   .card-count {{
     display: inline-block;
     background: #2a1a3a;
-    color: #bb86fc;
-    font-size: 0.7rem;
+    color: #ce93d8;
+    font-size: 0.75rem;
     padding: 1px 5px;
     border-radius: 3px;
     margin-left: 4px;
@@ -345,7 +355,7 @@ class ReportGenerator:
   }}
 
   /* Footer */
-  .footer {{ text-align: center; color: #555; font-size: 0.8rem; padding: 16px 0 8px; }}
+  .footer {{ text-align: center; color: #888; font-size: 0.8rem; padding: 16px 0 8px; }}
 </style>
 </head>
 <body>
