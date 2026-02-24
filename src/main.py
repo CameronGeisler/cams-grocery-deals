@@ -13,6 +13,7 @@ import sys
 import yaml
 import shutil
 import logging
+import pickle
 import subprocess
 from pathlib import Path
 
@@ -105,7 +106,7 @@ def deploy_to_github_pages(html_path: str, repo_path: str, base_dir: Path):
         logger.warning(f"Deploy failed (non-critical): {e}")
 
 
-def run_pipeline(dry_run: bool = False):
+def run_pipeline(report_only: bool = False):
     """Execute the grocery planning pipeline."""
     setup_logging()
 
@@ -113,6 +114,7 @@ def run_pipeline(dry_run: bool = False):
     script_dir = Path(__file__).resolve().parent.parent
     config_dir = script_dir / "config"
     data_dir = script_dir / "data"
+    cache_path = data_dir / "results_cache.pkl"
 
     logger.info("Loading configuration...")
     try:
@@ -124,53 +126,72 @@ def run_pipeline(dry_run: bool = False):
 
     settings = config["settings"]
 
-    # Check for required settings
-    postal_code = settings.get("postal_code", "CHANGE_ME")
-    if postal_code == "CHANGE_ME":
-        print("\n" + "=" * 60)
-        print("  FIRST TIME SETUP NEEDED")
-        print("=" * 60)
-        print(f"\nPlease edit: {config_dir / 'settings.yaml'}")
-        print("  1. Set your postal_code (e.g., 'T2P 1J9')")
-        print(f"\nAlso customize: {config_dir / 'preferences.yaml'}")
-        print("  - Add/remove items from your staples list")
-        print(f"\nAnd customize: {config_dir / 'tier_lists.yaml'}")
-        print("  - Edit tier lists for meat, carbs, vegetables, fruit")
-        print()
-        sys.exit(0)
-
-    results = PipelineResults()
-
-    # --- Step 1: Fetch flyer data ---
-    logger.info(f"Fetching flyer deals for postal code {postal_code}...")
-    flipp = FlippClient(
-        postal_code=postal_code,
-        locale=settings.get("locale", "en"),
-        cache_dir=str(data_dir),
-    )
-
-    try:
-        all_store_items = flipp.get_all_deals(config["stores"])
-    except Exception as e:
-        logger.error(f"Failed to fetch flyer data: {e}")
-        results.errors.append(f"Flipp API error: {e}")
+    if report_only:
+        # --- Report-only mode: load cached results ---
+        if not cache_path.exists():
+            print("\nNo cached results found. Run a full pipeline first: python run.py")
+            sys.exit(1)
+        logger.info("Report-only mode: loading cached results...")
+        with open(cache_path, "rb") as f:
+            results = pickle.load(f)
         all_store_items = {}
+    else:
+        # Check for required settings
+        postal_code = settings.get("postal_code", "CHANGE_ME")
+        if postal_code == "CHANGE_ME":
+            print("\n" + "=" * 60)
+            print("  FIRST TIME SETUP NEEDED")
+            print("=" * 60)
+            print(f"\nPlease edit: {config_dir / 'settings.yaml'}")
+            print("  1. Set your postal_code (e.g., 'T2P 1J9')")
+            print(f"\nAlso customize: {config_dir / 'preferences.yaml'}")
+            print("  - Add/remove items from your staples list")
+            print(f"\nAnd customize: {config_dir / 'tier_lists.yaml'}")
+            print("  - Edit tier lists for meat, carbs, vegetables, fruit")
+            print()
+            sys.exit(0)
 
-    total_items = sum(len(v) for v in all_store_items.values())
-    if total_items == 0:
-        results.errors.append(
-            "No flyer items found. Check your postal code and internet connection."
+        results = PipelineResults()
+
+        # --- Step 1: Fetch flyer data ---
+        logger.info(f"Fetching flyer deals for postal code {postal_code}...")
+        flipp = FlippClient(
+            postal_code=postal_code,
+            locale=settings.get("locale", "en"),
+            cache_dir=str(data_dir),
         )
 
-    # --- Step 2: Match items against staples + tier lists ---
-    logger.info("Matching items against staples and tier lists...")
-    ollama_settings = settings.get("ollama", {})
-    matching_mode = ollama_settings.get("matching_mode", "auto")
-    matcher = ItemMatcher(
-        config["preferences"], config["tier_lists"],
-        matching_mode=matching_mode, ollama_settings=ollama_settings,
-    )
-    results = matcher.match_all(all_store_items)
+        try:
+            all_store_items = flipp.get_all_deals(config["stores"])
+        except Exception as e:
+            logger.error(f"Failed to fetch flyer data: {e}")
+            results.errors.append(f"Flipp API error: {e}")
+            all_store_items = {}
+
+        total_items = sum(len(v) for v in all_store_items.values())
+        if total_items == 0:
+            results.errors.append(
+                "No flyer items found. Check your postal code and internet connection."
+            )
+
+        # --- Step 2: Match items against staples + tier lists ---
+        logger.info("Matching items against staples and tier lists...")
+        ollama_settings = settings.get("ollama", {})
+        matching_mode = ollama_settings.get("matching_mode", "auto")
+        matcher = ItemMatcher(
+            config["preferences"], config["tier_lists"],
+            matching_mode=matching_mode, ollama_settings=ollama_settings,
+        )
+        results = matcher.match_all(all_store_items)
+
+        # Cache results for --report-only mode
+        os.makedirs(data_dir, exist_ok=True)
+        try:
+            with open(cache_path, "wb") as f:
+                pickle.dump(results, f)
+            logger.info(f"Results cached to {cache_path}")
+        except Exception as e:
+            logger.warning(f"Failed to cache results: {e}")
 
     # --- Step 3: Generate report ---
     reporter = ReportGenerator(tier_lists=config["tier_lists"])
@@ -191,9 +212,8 @@ def run_pipeline(dry_run: bool = False):
     # Console summary
     staple_count = sum(len(v) for v in results.staples.values())
     tier_count = sum(len(v) for v in results.tier_results.values())
-    store_count = len(all_store_items)
     print(f"\nGrocery Planner — {results.run_date.strftime('%B %d, %Y')}")
-    print(f"Found {staple_count} staple matches, {tier_count} tier items across {store_count} stores.")
+    print(f"Found {staple_count} staple matches, {tier_count} tier items.")
     print(f"Report saved to: {html_path}")
 
     if results.errors:

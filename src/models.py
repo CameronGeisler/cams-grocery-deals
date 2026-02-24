@@ -16,6 +16,7 @@ class FlyerItem:
     valid_from: Optional[date] = None
     valid_to: Optional[date] = None
     category: str = ""
+    image_url: str = ""
     raw_data: dict = field(default_factory=dict)
 
 

@@ -255,6 +255,7 @@ class FlippClient:
             valid_from=self._parse_date(raw.get("valid_from")),
             valid_to=self._parse_date(raw.get("valid_to")),
             category=raw.get("category", ""),
+            image_url=raw.get("cutout_image_url", ""),
             raw_data=raw,
         )
 
@@ -296,6 +297,7 @@ class FlippClient:
             valid_from=self._parse_date(raw.get("valid_from")),
             valid_to=self._parse_date(raw.get("valid_to")),
             category=raw.get("category", ""),
+            image_url=raw.get("cutout_image_url", ""),
             raw_data=raw,
         )
 
@@ -340,3 +342,17 @@ class FlippClient:
                 json.dump(serializable, f, indent=2, default=str)
         except Exception as e:
             logger.warning(f"Failed to cache results: {e}")
+
+        # Dump full raw_data for first 5 items per store (discovery)
+        raw_path = os.path.join(self.cache_dir, "raw_api_samples.json")
+        try:
+            samples = {}
+            for store_key, items in results.items():
+                samples[store_key] = [
+                    item.raw_data for item in items[:5]
+                ]
+            with open(raw_path, "w", encoding="utf-8") as f:
+                json.dump(samples, f, indent=2, default=str)
+            logger.info(f"Raw API samples saved to {raw_path}")
+        except Exception as e:
+            logger.warning(f"Failed to save raw samples: {e}")
