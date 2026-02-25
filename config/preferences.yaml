@@ -27,7 +27,7 @@ staples:
 
   - name: "Chicken Thighs"
     keywords: ["chicken thighs", "chicken thigh"]
-    avoid: ["breaded", "frozen dinner", "nugget"]
+    avoid: ["breaded", "frozen dinner", "nugget", "plant-based", "plant based"]
     category: "meat"
 
   - name: "Cottage Cheese"
@@ -85,6 +85,7 @@ staples:
 
   - name: "Vegetables for Meals"
     keywords: ["broccoli", "cauliflower", "bell peppers", "zucchini", "asparagus", "green beans"]
+    avoid: ["heinz", "canned", "baked beans"]
     category: "vegetables"
 
   - name: "Yogurt"

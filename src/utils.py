@@ -154,8 +154,8 @@ def fuzzy_match(query: str, candidate: str, threshold: float = 0.65) -> float:
     q = query.lower().strip()
     c = candidate.lower().strip()
 
-    # Exact substring match is always a hit
-    if q in c or c in q:
+    # Exact substring match is always a hit (keyword found in candidate)
+    if q in c:
         return 1.0
 
     ratio = SequenceMatcher(None, q, c).ratio()
@@ -218,6 +218,16 @@ def extract_weight_from_text(text: str) -> Optional[Tuple[float, str]]:
     # Skip weight patterns that are part of price info (e.g. "$3.99/kg")
     # We want package weights like "500g", "1.5kg", not price-per-weight units
     # Strategy: find all weight patterns, reject ones preceded by $ or /
+
+    # Handle slash-separated sizes first: "450/540 G" -> take first number (450)
+    slash_match = re.search(r'(\d+\.?\d*)\s*/\s*\d+\.?\d*\s*(kg|g(?![a-z])|lb|oz)\b', text)
+    if slash_match:
+        value = float(slash_match.group(1))
+        unit = slash_match.group(2).rstrip()
+        if unit.startswith("g"):
+            unit = "g"
+        if value > 0:
+            return (value, unit)
 
     patterns = [
         # kg: "1.5kg", "2 kg"

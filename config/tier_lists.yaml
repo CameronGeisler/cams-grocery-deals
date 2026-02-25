@@ -23,7 +23,7 @@ meat:
         avoid: ["smoked", "canned", "lox", "jerky", "burger"]
       - name: "Chicken Breast"
         keywords: ["chicken breast", "boneless skinless chicken"]
-        avoid: ["breaded", "frozen dinner", "nugget", "stuffed", "kiev", "strips", "fully cooked", "bites", "tenders", "fingers"]
+        avoid: ["breaded", "frozen dinner", "nugget", "stuffed", "kiev", "strips", "fully cooked", "bites", "tenders", "fingers", "plant-based", "plant based"]
       - name: "Turkey Breast"
         keywords: ["turkey breast", "turkey cutlet"]
         avoid: ["deli", "lunch meat", "smoked", "processed"]
@@ -32,6 +32,7 @@ meat:
         avoid: ["egg salad", "egg roll", "liquid eggs", "egg nog", "egg noodle", "cadbury", "chocolate", "lindt", "hershey", "ferrero", "kitkat", "bunny", "candy", "eggies", "mini eggs"]
       - name: "Sardines"
         keywords: ["sardines", "sardine"]
+        avoid: ["mashed", "potatoes", "betty crocker", "broth", "campbell"]
       - name: "Beef Liver"
         keywords: ["beef liver", "calf liver"]
         avoid: ["pate", "spread"]
@@ -47,7 +48,7 @@ meat:
         avoid: ["frozen", "marinated", "seasoned"]
       - name: "Chicken Thighs"
         keywords: ["chicken thigh", "chicken thighs"]
-        avoid: ["breaded", "frozen dinner", "nugget", "stuffed"]
+        avoid: ["breaded", "frozen dinner", "nugget", "stuffed", "plant-based", "plant based"]
       - name: "Shrimp"
         keywords: ["shrimp", "prawns", "tiger shrimp", "white shrimp"]
         avoid: ["paste", "chips", "crackers", "ring", "dumpling", "har gow", "wonton"]
@@ -110,7 +111,7 @@ carbs:
         avoid: ["soup", "canned"]
       - name: "Black Beans"
         keywords: ["black beans"]
-        avoid: ["sauce", "burger"]
+        avoid: ["sauce", "burger", "heinz", "baked"]
       - name: "Chickpeas"
         keywords: ["chickpeas", "garbanzo"]
         avoid: ["hummus", "snack"]
@@ -164,7 +165,7 @@ carbs:
         keywords: ["couscous"]
       - name: "Flour Tortillas"
         keywords: ["flour tortilla", "flour tortillas", "tortilla"]
-        avoid: ["chips"]
+        avoid: ["chips", "all purpose", "baking", "no name® flour"]
       - name: "Pinto Beans"
         keywords: ["pinto beans"]
 
@@ -339,7 +340,7 @@ vegetables:
         avoid: ["relish"]
       - name: "Green Beans"
         keywords: ["green beans", "string beans", "snap beans"]
-        avoid: ["canned", "frozen"]
+        avoid: ["canned", "frozen", "heinz", "baked"]
       - name: "Celery"
         keywords: ["celery", "celery stalks"]
         avoid: ["salt", "seed"]
@@ -474,3 +475,4 @@ fruit:
         avoid: ["canned"]
       - name: "Dragon Fruit"
         keywords: ["dragon fruit", "dragonfruit", "pitaya"]
+        avoid: ["pita", "byblos"]

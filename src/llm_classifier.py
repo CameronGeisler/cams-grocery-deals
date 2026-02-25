@@ -256,15 +256,15 @@ class OllamaClassifier:
 
     @staticmethod
     def _food_matches_keywords(food_lower: str, keywords: list, name: str) -> bool:
-        """Check if a food name matches any keyword (bidirectional substring)."""
+        """Check if a food name matches any keyword (keyword found in food name)."""
         # Check keywords
         for kw in keywords:
             kw_lower = kw.lower()
-            if kw_lower in food_lower or food_lower in kw_lower:
+            if kw_lower in food_lower:
                 return True
         # Check the category/item name itself
         name_lower = name.lower()
-        if name_lower in food_lower or food_lower in name_lower:
+        if name_lower in food_lower:
             return True
         return False
 
