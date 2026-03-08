@@ -32,24 +32,28 @@ class OllamaClassifier:
         self.model = model
         self.batch_size = batch_size
 
-        # Build lookup tables for code-side matching
+        # Build lookup tables for avoid filtering and validation
         self.staple_categories = {s["name"]: s.get("category", "other") for s in staples}
+        self.staple_avoids = {s["name"]: [a.lower() for a in s.get("avoid", [])] for s in staples}
 
-        self.staple_keywords = {}
-        for s in staples:
-            self.staple_keywords[s["name"]] = {
-                "keywords": [k.lower() for k in s.get("keywords", [])],
-                "avoid": [a.lower() for a in s.get("avoid", [])],
-            }
-
-        self.tier_keywords = {}
+        self.tier_avoids = {}
+        self.tier_tiers = {}
         for category in ("meat", "carbs", "vegetables", "fruit"):
             for tier_group in tier_lists.get(category, []):
+                tier_num = tier_group.get("tier", 1)
                 for entry in tier_group.get("items", []):
-                    self.tier_keywords[(category, entry["name"])] = {
-                        "keywords": [k.lower() for k in entry.get("keywords", [])],
-                        "avoid": [a.lower() for a in entry.get("avoid", [])],
-                    }
+                    key = (category, entry["name"])
+                    self.tier_avoids[key] = [a.lower() for a in entry.get("avoid", [])]
+                    self.tier_tiers[key] = tier_num
+
+        # Case-insensitive name maps: LLM may return slightly wrong casing
+        # staple_name_map: "cheese" -> "Cheese"
+        self.staple_name_map = {s["name"].lower(): s["name"] for s in staples}
+        # tier_name_map: "chicken breast" -> [(category, "Chicken Breast", tier_num), ...]
+        # A name can appear in multiple categories (e.g. Lentils in meat+carbs)
+        self.tier_name_map = {}
+        for (category, name), tier_num in self.tier_tiers.items():
+            self.tier_name_map.setdefault(name.lower(), []).append((category, name, tier_num))
 
         self.system_prompt = self._build_system_prompt()
 
@@ -142,7 +146,7 @@ class OllamaClassifier:
             return {}
 
     def _parse_llm_response(self, content: str, batch: list, start_index: int) -> dict:
-        """Parse the LLM's food identifications and match against staples/tiers."""
+        """Parse LLM responses. LLM returns only names; code resolves staple/tier/category/tier_num."""
         results = {}
         try:
             data = json.loads(content)
@@ -164,109 +168,39 @@ class OllamaClassifier:
             if idx < 0 or idx >= len(batch):
                 continue
 
-            food_name = entry.get("food", "").strip()
-            if not food_name:
+            match_name = entry.get("match", "").strip()
+            if not match_name:
                 continue
 
             abs_idx = start_index + idx
-            item_name = batch[idx].name
+            item_lower = batch[idx].name.lower()
+            name_lower = match_name.lower()
 
-            # Match the LLM's food identification against our staples and tiers
-            matches = self._match_food_to_lists(food_name, item_name)
+            # Check staples (case-insensitive)
+            canonical_staple = self.staple_name_map.get(name_lower)
+            if canonical_staple:
+                if not any(a in item_lower for a in self.staple_avoids.get(canonical_staple, [])):
+                    results[(abs_idx, "staple", canonical_staple)] = {
+                        "abs_idx": abs_idx,
+                        "type": "staple",
+                        "match": canonical_staple,
+                        "category": self.staple_categories.get(canonical_staple, "other"),
+                        "tier": None,
+                    }
 
-            # Store all matches for this item
-            for match in matches:
-                key = (abs_idx, match["type"], match["match"])
-                results[key] = {
-                    "abs_idx": abs_idx,
-                    "type": match["type"],
-                    "match": match["match"],
-                    "category": match["category"],
-                    "tier": match.get("tier"),
-                }
+            # Check tiers (case-insensitive, handles multi-category names like Lentils)
+            for category, canonical_tier, tier_num in self.tier_name_map.get(name_lower, []):
+                tier_key = (category, canonical_tier)
+                if not any(a in item_lower for a in self.tier_avoids.get(tier_key, [])):
+                    results[(abs_idx, "tier", canonical_tier, category)] = {
+                        "abs_idx": abs_idx,
+                        "type": "tier",
+                        "match": canonical_tier,
+                        "category": category,
+                        "tier": tier_num,
+                    }
 
         return results
-
-    def _match_food_to_lists(self, food_name: str, item_name: str) -> list:
-        """Match the LLM's food identification against staples and tier lists.
-
-        Uses bidirectional substring matching: checks if any keyword is in the
-        food name OR if the food name is in any keyword.
-        Avoid lists are checked against the original item name.
-
-        Returns list of matches (an item can match multiple categories).
-        """
-        food_lower = food_name.lower()
-        item_lower = item_name.lower()
-        matches = []
-
-        # Check staples
-        for staple in self.staples:
-            sname = staple["name"]
-            lookup = self.staple_keywords.get(sname)
-            if not lookup:
-                continue
-
-            # Check avoid list against original item name
-            avoided = False
-            for avoid_word in lookup["avoid"]:
-                if avoid_word in item_lower:
-                    avoided = True
-                    break
-            if avoided:
-                continue
-
-            # Bidirectional keyword match against LLM's food name
-            if self._food_matches_keywords(food_lower, lookup["keywords"], sname):
-                matches.append({
-                    "type": "staple",
-                    "match": sname,
-                    "category": self.staple_categories.get(sname, "other"),
-                })
-
-        # Check tier items
-        for category in ("meat", "carbs", "vegetables", "fruit"):
-            for tier_group in self.tier_lists.get(category, []):
-                tier_num = tier_group.get("tier", 1)
-                for entry in tier_group.get("items", []):
-                    ename = entry["name"]
-                    lookup = self.tier_keywords.get((category, ename))
-                    if not lookup:
-                        continue
-
-                    # Check avoid list against original item name
-                    avoided = False
-                    for avoid_word in lookup["avoid"]:
-                        if avoid_word in item_lower:
-                            avoided = True
-                            break
-                    if avoided:
-                        continue
-
-                    # Bidirectional keyword match against LLM's food name
-                    if self._food_matches_keywords(food_lower, lookup["keywords"], ename):
-                        matches.append({
-                            "type": "tier",
-                            "match": ename,
-                            "category": category,
-                            "tier": tier_num,
-                        })
-
-        return matches
-
-    @staticmethod
-    def _food_matches_keywords(food_lower: str, keywords: list, name: str) -> bool:
-        """Check if a food name matches any keyword (keyword found in food name)."""
-        # Check keywords
-        for kw in keywords:
-            kw_lower = kw.lower()
-            if kw_lower in food_lower:
-                return True
-        # Check the category/item name itself
-        name_lower = name.lower()
-        if name_lower in food_lower:
-            return True
-        return False
 
     def _build_results(self, all_items: list, classifications: list,
                        unit_prices: dict) -> PipelineResults:
@@ -359,28 +293,37 @@ class OllamaClassifier:
         )
 
     def _build_system_prompt(self) -> str:
-        """Build a simple food-identification prompt."""
-        return "\n".join([
-            "You are a food identifier for grocery flyer items.",
-            "For each item, identify what food it is using a short, common name.",
+        """Build a food-matching prompt with the full target list."""
+        lines = [
+            "You are a grocery flyer classifier.",
+            "Match each item to one of the entries below — or skip it entirely.",
+            "",
+            "STAPLES: " + ", ".join(s["name"] for s in self.staples),
+            "",
+        ]
+
+        for category in ("meat", "carbs", "vegetables", "fruit"):
+            cat_items = []
+            for tier_group in self.tier_lists.get(category, []):
+                tier_num = tier_group.get("tier", 1)
+                for entry in tier_group.get("items", []):
+                    cat_items.append(f"{entry['name']} (T{tier_num})")
+            if cat_items:
+                lines.append(f"{category.upper()}: " + ", ".join(cat_items))
+
+        lines += [
             "",
             "RULES:",
-            "1. Only identify REAL FOOD items (fresh, raw, or basic grocery staples).",
-            "2. SKIP all non-food: cleaning products, health/beauty, baby products,",
-            "   pet food, electronics, appliances, clothing, diapers, medicine.",
-            "3. SKIP processed/prepared foods: frozen meals, sauces, condiments, oils,",
-            "   juices, dips, spreads, snack chips, candy, cookies, cereal, energy drinks.",
-            "4. Use simple food names: \"pineapple\", \"chicken thighs\", \"salmon\",",
-            "   \"greek yogurt\", \"eggs\", \"cheddar cheese\", \"broccoli\".",
-            "5. Be PRECISE: 'Avocado Oil' is oil (skip). 'Garlic Bread' is bread (skip).",
-            "   'Cadbury Mini Eggs' is candy (skip). 'Lemon Juice' is juice (skip).",
-            "6. Double-check idx values match the line number of the item.",
+            "- Only match if the item IS clearly that raw/whole food",
+            "- Skip processed versions (frozen meals, sauces, juices, dips, snacks)",
+            "- Skip non-food (electronics, clothing, cleaning products, medicine)",
+            "- Use the EXACT name from the list above, character-for-character",
+            "  (e.g. 'Chicken Breast' not 'Chicken Breasts', 'Yogurt' not 'Greek Yogurt')",
             "",
-            "RESPOND with JSON: {\"items\": [{\"idx\": 0, \"food\": \"pineapple\"}, "
-            "{\"idx\": 3, \"food\": \"chicken thighs\"}]}",
-            "",
-            "Only include food items. Skip everything else.",
-        ])
+            'Return JSON: {"items": [{"idx": 2, "match": "Cheese"}, {"idx": 5, "match": "Salmon"}]}',
+            "Only include matching items. Skip everything else.",
+        ]
+        return "\n".join(lines)
 
     def _build_user_prompt(self, batch: list) -> str:
         """Build the user prompt for a batch of items."""
