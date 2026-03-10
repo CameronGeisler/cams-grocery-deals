@@ -20,7 +20,7 @@ meat:
     items:
       - name: "Salmon"
         keywords: ["salmon fillet", "atlantic salmon", "salmon steak", "sockeye salmon", "coho salmon", "salmon"]
-        avoid: ["smoked", "canned", "lox", "jerky", "burger"]
+        avoid: ["smoked", "canned", "lox", "jerky", "burger", "tilapia", "pompano", "cod", "snakehead", "tuna", "breaded", "fish stick", "side dish", "mixed pack"]
       - name: "Chicken Breast"
         keywords: ["chicken breast", "boneless skinless chicken"]
         avoid: ["breaded", "frozen dinner", "nugget", "stuffed", "kiev", "strips", "fully cooked", "bites", "tenders", "fingers", "plant-based", "plant based"]
