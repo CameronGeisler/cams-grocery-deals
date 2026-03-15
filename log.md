@@ -2,6 +2,16 @@
 
 ---
 
+## Mar 15, 2026 — Upgraded LLM to qwen3:32b
+
+**Problem:** qwen2.5:14b was producing obvious false positives: dog food as chicken thighs, parsley as yogurt, steelhead fish as steak, frozen vegetables as frozen fruit, limes as oranges, peanut butter as oats, udon noodles as buckwheat.
+
+**Fix:** Switched model from `qwen2.5:14b` to `qwen3:32b` in `config/settings.yaml`. Model was already installed locally and noted in the config as the recommended upgrade.
+
+**Result:** All 8 tracked false positives resolved. Tier items increased from 82 to 98 (new finds: shrimp, lamb, papaya, watermelon, apples, cucumbers, romaine). Staples stayed steady at 73. Run time increased from ~3 min to ~50 min but only runs weekly.
+
+---
+
 ## Mar 09, 2026 — Classification Fixes + Vegetables for Meals
 
 **Salmon false positives fixed:** Added avoid keywords (`tilapia, pompano, cod, snakehead, tuna, breaded, fish stick, side dish, mixed pack`) to both `config/tier_lists.yaml` (Salmon T1) and `config/preferences.yaml` (Salmon staple). Dropped from ~10 wrong matches to 2 remaining questionable ones.
