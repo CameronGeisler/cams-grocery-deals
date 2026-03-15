@@ -2,6 +2,20 @@
 
 ---
 
+## Mar 15, 2026 — Added --fast flag for quick test runs
+
+Added `--fast` CLI flag to `run.py`. When passed, overrides the LLM model to `qwen2.5:14b` (~3 min) instead of the default `qwen3:32b` (~50 min). Useful for testing changes without waiting for the full-accuracy run.
+
+---
+
+## Mar 15, 2026 — Consolidated to single folder for deploy
+
+**Problem:** Two local folders (`grocery_planner` and `cams-grocery-deals`) both pointed to the same GitHub repo. The deploy step copied `index.html` to the second folder, committed, and pushed from there — unnecessary duplication.
+
+**Fix:** Simplified `deploy_to_github_pages()` in `src/main.py` to commit and push `index.html` directly from the project directory. Removed the `deploy.github_pages_repo` setting from `config/settings.yaml`. The `cams-grocery-deals` folder can now be deleted.
+
+---
+
 ## Mar 15, 2026 — Upgraded LLM to qwen3:32b
 
 **Problem:** qwen2.5:14b was producing obvious false positives: dog food as chicken thighs, parsley as yogurt, steelhead fish as steak, frozen vegetables as frozen fruit, limes as oranges, peanut butter as oats, udon noodles as buckwheat.

@@ -7,6 +7,7 @@ Results are saved to an HTML report you can view on your phone.
 Usage:
     python run.py                # Full run: fetch deals, classify, generate report
     python run.py --report-only  # Regenerate report from cached results (instant)
+    python run.py --fast         # Full run with faster model (qwen2.5:14b, ~3 min)
     python run.py --dump         # Write data/classifications.txt for manual verification
 """
 import sys
@@ -70,4 +71,5 @@ if __name__ == "__main__":
         dump_classifications()
     else:
         report_only = "--report-only" in sys.argv
-        run_pipeline(report_only=report_only)
+        fast = "--fast" in sys.argv
+        run_pipeline(report_only=report_only, fast=fast)

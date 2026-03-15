@@ -11,7 +11,6 @@ Runs the grocery planning process:
 import os
 import sys
 import yaml
-import shutil
 import logging
 import pickle
 import subprocess
@@ -53,23 +52,14 @@ def setup_logging():
     )
 
 
-def deploy_to_github_pages(html_path: str, repo_path: str, base_dir: Path):
-    """Copy the HTML report to the GitHub Pages repo and push."""
+def deploy_to_github_pages(html_path: str, base_dir: Path):
+    """Commit and push index.html to GitHub Pages from the project directory."""
     try:
-        # Resolve repo path relative to project root
-        if not os.path.isabs(repo_path):
-            repo_path = str(base_dir / repo_path)
-
-        if not os.path.isdir(repo_path):
-            logger.warning(f"Deploy repo not found: {repo_path}. Skipping deploy.")
-            return
-
-        dest = os.path.join(repo_path, "index.html")
-        shutil.copy2(html_path, dest)
+        cwd = str(base_dir)
 
         result = subprocess.run(
             ["git", "add", "index.html"],
-            cwd=repo_path, capture_output=True, text=True
+            cwd=cwd, capture_output=True, text=True
         )
         if result.returncode != 0:
             logger.warning(f"git add failed: {result.stderr}")
@@ -78,7 +68,7 @@ def deploy_to_github_pages(html_path: str, repo_path: str, base_dir: Path):
         # Check if there are changes to commit
         status = subprocess.run(
             ["git", "diff", "--cached", "--quiet"],
-            cwd=repo_path, capture_output=True
+            cwd=cwd, capture_output=True
         )
         if status.returncode == 0:
             logger.info("No changes to deploy (report unchanged).")
@@ -86,7 +76,7 @@ def deploy_to_github_pages(html_path: str, repo_path: str, base_dir: Path):
 
         result = subprocess.run(
             ["git", "commit", "-m", "Update grocery deals"],
-            cwd=repo_path, capture_output=True, text=True
+            cwd=cwd, capture_output=True, text=True
         )
         if result.returncode != 0:
             logger.warning(f"git commit failed: {result.stderr}")
@@ -94,7 +84,7 @@ def deploy_to_github_pages(html_path: str, repo_path: str, base_dir: Path):
 
         result = subprocess.run(
             ["git", "push"],
-            cwd=repo_path, capture_output=True, text=True, timeout=30
+            cwd=cwd, capture_output=True, text=True, timeout=30
         )
         if result.returncode == 0:
             logger.info("Deployed to GitHub Pages.")
@@ -106,7 +96,7 @@ def deploy_to_github_pages(html_path: str, repo_path: str, base_dir: Path):
         logger.warning(f"Deploy failed (non-critical): {e}")
 
 
-def run_pipeline(report_only: bool = False):
+def run_pipeline(report_only: bool = False, fast: bool = False):
     """Execute the grocery planning pipeline."""
     setup_logging()
 
@@ -177,6 +167,10 @@ def run_pipeline(report_only: bool = False):
         # --- Step 2: Match items against staples + tier lists ---
         logger.info("Matching items against staples and tier lists...")
         ollama_settings = settings.get("ollama", {})
+        if fast:
+            ollama_settings = dict(ollama_settings)
+            ollama_settings["model"] = "qwen2.5:14b"
+            logger.info("Fast mode: using qwen2.5:14b")
         matching_mode = ollama_settings.get("matching_mode", "auto")
         matcher = ItemMatcher(
             config["preferences"], config["tier_lists"],
@@ -203,11 +197,8 @@ def run_pipeline(report_only: bool = False):
 
     reporter.generate_html_report(results, html_path)
 
-    # --- Step 4: Deploy to GitHub Pages (if configured) ---
-    deploy_conf = settings.get("deploy", {})
-    pages_repo = deploy_conf.get("github_pages_repo")
-    if pages_repo:
-        deploy_to_github_pages(html_path, pages_repo, script_dir)
+    # --- Step 4: Deploy to GitHub Pages ---
+    deploy_to_github_pages(html_path, script_dir)
 
     # Console summary
     staple_count = sum(len(v) for v in results.staples.values())
