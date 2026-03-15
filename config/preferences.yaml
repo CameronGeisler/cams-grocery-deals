@@ -70,7 +70,7 @@ staples:
 
   - name: "Salmon"
     keywords: ["salmon fillet", "atlantic salmon", "salmon"]
-    avoid: ["smoked", "canned", "lox"]
+    avoid: ["smoked", "canned", "lox", "tilapia", "pompano", "cod", "snakehead", "tuna", "breaded", "fish stick", "side dish", "mixed pack"]
     category: "meat"
 
   - name: "Steak"
@@ -84,8 +84,7 @@ staples:
     category: "vegetables"
 
   - name: "Vegetables for Meals"
-    keywords: ["broccoli", "cauliflower", "bell peppers", "zucchini", "asparagus", "green beans"]
-    avoid: ["heinz", "canned", "baked beans"]
+    meal_vegetables: ["Broccoli", "Cauliflower", "Red Bell Peppers", "Zucchini", "Asparagus", "Green Beans", "Brussels Sprouts", "Cabbage", "Sweet Potato", "Eggplant", "Kale", "Spinach", "Bok Choy", "Celery", "Cucumber", "Carrots"]
     category: "vegetables"
 
   - name: "Yogurt"

@@ -44,8 +44,9 @@ class ItemMatcher:
 
         if self.matching_mode in ("llm", "auto"):
             from src.llm_classifier import OllamaClassifier
+            llm_staples = [s for s in self.staples if "meal_vegetables" not in s]
             classifier = OllamaClassifier(
-                staples=self.staples,
+                staples=llm_staples,
                 tier_lists=self.tier_lists,
                 ollama_url=self.ollama_settings.get("url", "http://localhost:11434"),
                 model=self.ollama_settings.get("model", "qwen2.5:14b"),
@@ -63,6 +64,8 @@ class ItemMatcher:
             results = classifier.classify_all(all_store_items)
         else:
             results = self._keyword_match_all(all_store_items)
+
+        self._derive_meal_vegetables(results)
 
         # Log summary
         staple_count = sum(len(v) for v in results.staples.values())
@@ -230,3 +233,15 @@ class ItemMatcher:
             results[category] = matches
 
         return results
+
+    def _derive_meal_vegetables(self, results: PipelineResults) -> None:
+        """Populate 'Vegetables for Meals' staple from the vegetables tier results."""
+        meal_staple = next((s for s in self.staples if s.get("name") == "Vegetables for Meals"), None)
+        if not meal_staple:
+            return
+        meal_veg_set = {v.lower() for v in meal_staple.get("meal_vegetables", [])}
+        filtered = [
+            ri for ri in results.tier_results.get("vegetables", [])
+            if ri.matched_tier_item and ri.matched_tier_item.lower() in meal_veg_set
+        ]
+        results.staples["Vegetables for Meals"] = filtered
