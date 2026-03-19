@@ -27,7 +27,7 @@ staples:
 
   - name: "Chicken Thighs"
     keywords: ["chicken thighs", "chicken thigh"]
-    avoid: ["breaded", "frozen dinner", "nugget", "plant-based", "plant based"]
+    avoid: ["breaded", "frozen dinner", "nugget", "plant-based", "plant based", "meatball"]
     category: "meat"
 
   - name: "Cottage Cheese"
@@ -70,7 +70,7 @@ staples:
 
   - name: "Salmon"
     keywords: ["salmon fillet", "atlantic salmon", "salmon"]
-    avoid: ["smoked", "canned", "lox", "tilapia", "pompano", "cod", "snakehead", "tuna", "breaded", "fish stick", "side dish", "mixed pack"]
+    avoid: ["smoked", "canned", "lox", "tilapia", "pompano", "cod", "snakehead", "tuna", "breaded", "fish stick", "side dish", "mixed pack", "haddock"]
     category: "meat"
 
   - name: "Steak"
