@@ -20,7 +20,7 @@ meat:
     items:
       - name: "Salmon"
         keywords: ["salmon fillet", "atlantic salmon", "salmon steak", "sockeye salmon", "coho salmon", "salmon"]
-        avoid: ["smoked", "canned", "lox", "jerky", "burger", "tilapia", "pompano", "cod", "snakehead", "tuna", "breaded", "fish stick", "side dish", "mixed pack"]
+        avoid: ["smoked", "canned", "lox", "jerky", "burger", "tilapia", "pompano", "cod", "snakehead", "tuna", "breaded", "fish stick", "side dish", "mixed pack", "haddock"]
       - name: "Chicken Breast"
         keywords: ["chicken breast", "boneless skinless chicken"]
         avoid: ["breaded", "frozen dinner", "nugget", "stuffed", "kiev", "strips", "fully cooked", "bites", "tenders", "fingers", "plant-based", "plant based"]
@@ -35,7 +35,7 @@ meat:
         avoid: ["mashed", "potatoes", "betty crocker", "broth", "campbell"]
       - name: "Beef Liver"
         keywords: ["beef liver", "calf liver"]
-        avoid: ["pate", "spread"]
+        avoid: ["pate", "spread", "brisket"]
 
   - tier: 2
     label: "A Tier"
